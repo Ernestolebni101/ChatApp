@@ -4,7 +4,10 @@ const mySchema = new Schema({
     user: {
         type: Schema.ObjectId,
         ref: 'User',
-        
+    },
+    chat: {
+        type: Schema.ObjectId,
+        ref: 'Chats'
     },
     message: {
         type: String,
@@ -13,7 +16,8 @@ const mySchema = new Schema({
     date: {
         type: Date,
         required: true
-    }
+    },
+
 });
 
 

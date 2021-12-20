@@ -4,15 +4,16 @@ const addMessage = async (mss) => {
     const myMessage = new Model(mss);
     await myMessage.save();
 }
-const get_Messages = async (filterUser) => {
+const get_Messages = async (filterchat) => {
 
     return new Promise((resolve, reject) => {
         let filter = {};
-        if (filterUser !== null) {
-            filter = { user: filterUser };
+        if (filterchat !== null) {
+            filter = { chat: filterchat };
         }
         Model.find(filter)
             .populate('user')
+            .populate('chat')
             .exec((error, populated) => {
                 if (error) {
                     reject(error);

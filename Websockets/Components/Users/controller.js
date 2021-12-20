@@ -1,21 +1,32 @@
 const store = require('./store');
 
-const addUser = async (name) => {
-    if (!name)
-        return Promise.reject('Invalid Name');
-    const user = {
-        name,
-    };
-    return await store.add(user);
+const addUser = async (usermodel) => {
+    if (!usermodel)
+        return Promise.reject('Invalid Name'); 
+    return await store.add(usermodel);
 }
 
-const getUser =  (filter) => {
+const getUser = (filter) => {
     return new Promise(async (resolve, reject) => {
         await resolve(store.getall(filter));
-    })
+    });
+}
+
+const deleteUser = (useruid) => {
+    return new Promise(async (resolve, reject) => {
+        await resolve(store.delete(useruid));
+    });
+}
+
+const updatUser = (uid, usermodel) => {
+    return new Promise(async (resolve, reject) => {
+        await resolve(store.update(uid, usermodel));
+    });
 }
 
 module.exports = {
     addUser,
-    getUser
+    getUser,
+    deleteUser,
+    updatUser
 }

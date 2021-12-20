@@ -1,21 +1,23 @@
 const store = require('./store');
 
-function addChat(users) {
-    if (!users || !Array.isArray(users)) {
+function addChat(chats) {
+    if (!chats || !Array.isArray(chats.users)) {
         return Promise.reject('Invalid user list');
     }
-
     const chat = {
-        users: users,
+        users: chats.users,
+        date: chats.date
     };
     return store.add(chat);
 }
 
-function listChats(userId) {
-    return store.list(userId);
+const listChats = async (userId) => {
+    return await store.list(userId);
 }
 
 module.exports = {
     addChat,
     listChats,
 }
+
+//!Array.isArray(users)

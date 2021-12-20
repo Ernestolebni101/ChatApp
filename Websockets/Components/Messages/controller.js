@@ -1,16 +1,18 @@
 const store = require('./store');
 
 
-const AddMessage = (user, message) => {
+const AddMessage = (message) => {
     return new Promise(async (resolve, reject) => {
-        if (!user || !message) {
+        if (!message) {
             console.error('[MessageController]: No se proporcionó el usuario y mensaje');
             reject('Los datos son incorrectos');
             return false;
         }
+        
         const full_Message = {
-            user: user,
-            message: message,
+            user: message.user,
+            chat: message.chat,
+            message: message.message,
             date: new Date()
         };
         store.add(full_Message);
@@ -18,10 +20,9 @@ const AddMessage = (user, message) => {
     });
 }
 
-
-const get_Messages = (filteruser) => {
+const get_Messages = (filterchat) => {
     return new Promise(async (resolve, reject) => {
-        await resolve(store.getall(filteruser));
+        await resolve(store.getall(filterchat));
     })
 }
 

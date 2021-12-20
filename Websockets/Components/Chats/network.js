@@ -3,8 +3,13 @@ const response = require('../../Network/response');
 const controller = require('./controller');
 const router = express.Router();
 
-router.post('/', function(req, res) {
-    controller.addChat(req.body.users)
+router.post('/', function (req, res) {
+
+    const chats = {
+        users: req.body.users,
+        date: new Date()
+    }
+    controller.addChat(chats)
         .then(data => {
             response.success(req, res, data, 201);
         })
@@ -13,7 +18,7 @@ router.post('/', function(req, res) {
         });
 });
 
-router.get('/:userId', function(req, res) {
+router.get('/:userId', function (req, res) {
     controller.listChats(req.params.userId)
         .then(users => {
             response.success(req, res, users, 200);

@@ -7,10 +7,11 @@ const controller = require('./controller');
 //    response.success(req, res, 'Messagin Center alive');
 //});
 
-router.get('/', (req, res) => {
-    const filterMessages  = req.query.user || null;
+router.get('/:chat', (req, res) => {
+    
+    const filterchat  = req.params.chat || null;
 
-    controller.get_Messages(filterMessages)
+    controller.get_Messages(filterchat)
         .then((store) => {
             response.success(req, res, store, 200);
         })
@@ -20,10 +21,12 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-
-    //const errors = validationResult(req.body);
-    console.log(req.body); // => req.body para acceder al cuerpo de la petición en caso de un post  
-    controller.AddMessage(req.body.user, req.body.message)
+    const message = {
+        user: req.body.user,
+        chat: req.body.chat,
+        message: req.body.message
+    };
+    controller.AddMessage(message)
         .then((data) => {
             response.success(req, res, data, 201);
         })
@@ -65,3 +68,6 @@ module.exports = router;
 //res.header({
 //    'custom-header': 'Una cadena'
 //});
+
+//const errors = validationResult(req.body);
+    //console.log(req.body); // => req.body para acceder al cuerpo de la petición en caso de un post  

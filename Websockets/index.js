@@ -4,6 +4,7 @@ const response = require("./Network/response");
 const app = express();
 const router  = require('./Network/routes');
 const db =  require('./db');
+const cors = require('cors');
 require('dotenv').config({path:'.env'});
 
 //Database Connection
@@ -13,6 +14,7 @@ db(process.env.DB_CONNECT);
 app.set('port', process.env.PORT || 3000);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 //app.use(router);  // => Middleware express
 app.listen(app.get('port'), () => {
     console.log(`Server Listen on localhost:${app.get('port')}`);

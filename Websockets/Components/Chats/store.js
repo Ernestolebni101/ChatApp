@@ -17,11 +17,10 @@ function listChats(userId) {
     Model.find(filter)
       .populate('users')
       .exec((err, populated) => {
-        if (  err) {
+        if (err) {
           reject(err);
           return false;
         }
-
         resolve(populated);
       });
   });
