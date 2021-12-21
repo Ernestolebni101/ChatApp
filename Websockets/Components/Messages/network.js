@@ -2,10 +2,18 @@ const express = require('express');
 const router = express.Router(); // => Para separar cabeceras, metodos, url
 const response = require('../../Network/response');
 const controller = require('./controller');
+const multer = require('multer');
 
-//router.get('/', (req, res) => {
-//    response.success(req, res, 'Messagin Center alive');
-//});
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, './uploads')
+    },
+    filename:  (req, file, cb) => {
+      cb(null, file.originalname)
+    }
+})
+
+var upload = multer({ storage: storage })
 
 router.get('/:chat', (req, res) => {
     
@@ -20,7 +28,7 @@ router.get('/:chat', (req, res) => {
         })
 });
 
-router.post('/', (req, res) => {
+router.post('/',upload.single('file') ,(req, res) => {
     const message = {
         user: req.body.user,
         chat: req.body.chat,
@@ -71,3 +79,8 @@ module.exports = router;
 
 //const errors = validationResult(req.body);
     //console.log(req.body); // => req.body para acceder al cuerpo de la petición en caso de un post  
+
+    //router.get('/', (req, res) => {
+//    response.success(req, res, 'Messagin Center alive');
+//});
+//middleware es un punto donde va a pasar antes de entrar a la dirrec
