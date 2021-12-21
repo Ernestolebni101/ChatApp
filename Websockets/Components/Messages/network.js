@@ -1,19 +1,14 @@
+const GridFsStorage = require('multer-gridfs-storage');
 const express = require('express');
 const router = express.Router(); // => Para separar cabeceras, metodos, url
 const response = require('../../Network/response');
 const controller = require('./controller');
 const multer = require('multer');
 
-var storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, './uploads')
-    },
-    filename:  (req, file, cb) => {
-      cb(null, file.originalname)
-    }
-})
 
-var upload = multer({ storage: storage })
+//upload.single('file') ,
+
+//url = https://www.youtube.com/watch?v=srPXMt1Q0nY
 
 router.get('/:chat', (req, res) => {
     
@@ -28,7 +23,7 @@ router.get('/:chat', (req, res) => {
         })
 });
 
-router.post('/',upload.single('file') ,(req, res) => {
+router.post('/',(req, res) => {
     const message = {
         user: req.body.user,
         chat: req.body.chat,
@@ -71,6 +66,9 @@ router.delete('/:id', (req, res) => {
 
 module.exports = router;
 
+
+
+
 //console.log(req.query); // => req.query para acceder a los parámetros
 //console.log(req.headers);
 //res.header({
@@ -84,3 +82,15 @@ module.exports = router;
 //    response.success(req, res, 'Messagin Center alive');
 //});
 //middleware es un punto donde va a pasar antes de entrar a la dirrec
+
+//var storage = multer.diskStorage({
+//    destination: (req, file, cb) => {
+ //     cb(null, './uploads')
+//    },
+//    filename:  (req, file, cb) => {
+//      cb(null, file.originalname)
+//    }
+//})
+//
+
+//var upload = multer({ storage: storage })
