@@ -11,7 +11,11 @@ const mySchema = new Schema({
     },
     message: {
         type: String,
-        required: true
+        required: false
+    },
+    messageimg: {
+        type: String,
+        required: false
     },
     date: {
         type: Date,

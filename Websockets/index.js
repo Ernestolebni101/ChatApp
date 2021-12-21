@@ -23,5 +23,6 @@ app.listen(app.get('port'), () => {
 router(app);
 
 // routing
-app.use('/app',express.static('public'));
+//app.use('/app',express.static('public'));
+app.use(express.static('uploads'));
 //const router = require('./Components/Messages/network');

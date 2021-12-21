@@ -18,7 +18,7 @@ const deleteUser = (useruid) => {
     });
 }
 
-const updatUser = (uid, usermodel) => {
+const updateUser = (uid, usermodel) => {
     return new Promise(async (resolve, reject) => {
         await resolve(store.update(uid, usermodel));
     });
@@ -28,5 +28,5 @@ module.exports = {
     addUser,
     getUser,
     deleteUser,
-    updatUser
+    updateUser
 }

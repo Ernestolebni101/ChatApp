@@ -13,6 +13,7 @@ const AddMessage = (message) => {
             user: message.user,
             chat: message.chat,
             message: message.message,
+            messageimg: message.messageimg,
             date: new Date()
         };
         store.add(full_Message);

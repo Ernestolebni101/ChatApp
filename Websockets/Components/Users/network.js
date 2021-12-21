@@ -17,6 +17,8 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     const usermodel = {
+        nickname: req.body.nickname,
+        password: req.body.password,
         name: req.body.name,
         lastname: req.body.lastname,
         birthdate: req.body.birthdate,
@@ -30,6 +32,26 @@ router.post('/', (req, res) => {
         });
 });
 
+
+router.patch('/:uid', (req, res) => {
+
+    const usermodel = {
+        nickname: req.body.nickname,
+        password: req.body.password,
+        name: req.body.name,
+        lastname: req.body.lastname,
+        birthdate: req.body.birthdate,
+    };
+
+    controller.updateUser(req.params.uid, usermodel)
+        .then(data => {
+            response.success(req, res, data, 201)
+        })
+        .catch(e => {
+            response.error(req, res, 'Internal Server Error', 500, e);
+        });
+});
+
 router.delete('/:uid', (req, res) => {
     controller.deleteUser(req.params.uid)
         .then(data => {
@@ -38,24 +60,6 @@ router.delete('/:uid', (req, res) => {
         .catch(e => {
             response.error(req, res, 'Internal Server error', 500, e);
         })
-});
-
-router.put('/:uid', (req, res) => {
-    const usermodel = {
-        name: req.body.name,
-        lastname: req.body.lastname,
-        birthdate: req.body.birthdate,
-    };
-
-    let uid = req.params.uid;
-
-    controller.updatUser(uid, usermodel)
-        .then(data => {
-            response.success(req, res, data, 201)
-        })
-        .catch(e => {
-            response.error(req, res, 'Internal Server Error', 500, e);
-        });
 });
 
 module.exports = router;    

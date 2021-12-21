@@ -3,6 +3,7 @@ const response = require('../../Network/response');
 const controller = require('./controller');
 const router = express.Router();
 
+
 router.post('/', (req, res) => {
 
     const chats = {
@@ -19,6 +20,7 @@ router.post('/', (req, res) => {
 });
 
 router.get('/:userId', (req, res) => {
+    
     controller.listChats(req.params.userId)
         .then(users => {
             response.success(req, res, users, 200);
@@ -28,4 +30,4 @@ router.get('/:userId', (req, res) => {
         });
 });
 
-module.exports = router;
+module.exports = router; 

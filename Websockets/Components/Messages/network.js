@@ -1,18 +1,39 @@
-const GridFsStorage = require('multer-gridfs-storage');
 const express = require('express');
 const router = express.Router(); // => Para separar cabeceras, metodos, url
 const response = require('../../Network/response');
 const controller = require('./controller');
 const multer = require('multer');
+const fs  = require('fs');
+
+/// Configure Multer
+let storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, process.cwd() + '/uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now() + file.originalname)
+    }
+})
+
+const file_Filter = (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+
+const upload = multer({
+    storage: storage,   
+    limits: { fileSize: 1024 * 1024 * 5 },
+    fileFilter: file_Filter
+});
 
 
-//upload.single('file') ,
-
-//url = https://www.youtube.com/watch?v=srPXMt1Q0nY
-
+// Endpoints
 router.get('/:chat', (req, res) => {
-    
-    const filterchat  = req.params.chat || null;
+
+    const filterchat = req.params.chat || null;
 
     controller.get_Messages(filterchat)
         .then((store) => {
@@ -23,12 +44,17 @@ router.get('/:chat', (req, res) => {
         })
 });
 
-router.post('/',(req, res) => {
+
+router.post('/',upload.single('file'),(req, res) => {
+  
     const message = {
         user: req.body.user,
         chat: req.body.chat,
-        message: req.body.message
+        message: req.body.message,
+        messageimg: null
     };
+
+    console.log(req.body.file);     
     controller.AddMessage(message)
         .then((data) => {
             response.success(req, res, data, 201);
@@ -37,6 +63,7 @@ router.post('/',(req, res) => {
             response.error(req, res, 'Invalid data', 400, 'Error en el controlador');
         });
 });
+
 
 router.patch('/:id', (req, res) => {
     controller.updateMessage(req.params.id, req.body.message)
@@ -48,11 +75,6 @@ router.patch('/:id', (req, res) => {
         });
 });
 
-router.delete('/', (req, res) => {
-    console.log(req.query); // => req.query para acceder a los parámetros
-    console.log(req.body);
-    res.send('this message is for you ' + req.body.text);
-});
 
 router.delete('/:id', (req, res) => {
     controller.deleteMessage(req.params.id)
@@ -83,14 +105,6 @@ module.exports = router;
 //});
 //middleware es un punto donde va a pasar antes de entrar a la dirrec
 
-//var storage = multer.diskStorage({
-//    destination: (req, file, cb) => {
- //     cb(null, './uploads')
-//    },
-//    filename:  (req, file, cb) => {
-//      cb(null, file.originalname)
-//    }
-//})
-//
+//url = https://www.youtube.com/watch?v=srPXMt1Q0nY
 
-//var upload = multer({ storage: storage })
+
