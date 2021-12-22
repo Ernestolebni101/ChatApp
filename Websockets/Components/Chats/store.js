@@ -1,11 +1,11 @@
 const Model = require('./model');
 
-function addChat(chat) {
+const addChat = (chat) => {
   const myChat = new Model(chat);
   return myChat.save();
 }
 
-function listChats(userId) {
+const listChats = (userId) => {
   return new Promise((resolve, reject) => {
     let filter = {};
     if (userId) {
@@ -26,7 +26,15 @@ function listChats(userId) {
   });
 }
 
+const removeChats = async (chat) => {
+  return await Model.deleteOne({
+    _id: chat
+  });
+}
+
+
 module.exports = {
   add: addChat,
   list: listChats,
+  removeChats: removeChats
 }

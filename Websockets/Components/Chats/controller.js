@@ -15,9 +15,27 @@ const listChats = async (userId) => {
     return await store.list(userId);
 }
 
+const deleteChats = async (chat) => {
+    return new Promise(async (resolve, reject) => {
+        if (!chat) {
+            reject('Invalid id');
+            return false;
+        }
+
+        store.removeChats(chat)
+            .then(() => {
+                resolve(chat);
+            })
+            .catch(e => {
+                reject(e);
+            });
+    });
+}
+
 module.exports = {
     addChat,
     listChats,
+    deleteChats
 }
 
 //!Array.isArray(users)

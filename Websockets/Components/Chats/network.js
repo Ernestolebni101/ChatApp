@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
 });
 
 router.get('/:userId', (req, res) => {
-    
+
     controller.listChats(req.params.userId)
         .then(users => {
             response.success(req, res, users, 200);
@@ -28,6 +28,16 @@ router.get('/:userId', (req, res) => {
         .catch(err => {
             response.error(req, res, 'Internal error', 500, err);
         });
+});
+
+router.delete('/:chatid', (req, res) => {
+    controller.deleteChats(req.params.chatid)
+    .then(() => {
+        response.success(req, res, `user ${req.params.chatid} deleted`, 200);
+    })
+    .catch((e) => {
+        response.error(req, res, 'Internal Server Error', 500, e);
+    });
 });
 
 module.exports = router; 

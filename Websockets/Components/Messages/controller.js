@@ -47,7 +47,7 @@ const deleteMessage = (id) => {
 
         store.remove(id)
             .then(() => {
-                resolve();
+                resolve(id);
             })
             .catch(e => {
                 reject(e);
